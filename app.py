@@ -7,7 +7,6 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
-# from random import randint
 import requests, json
 
 
@@ -36,9 +35,9 @@ from linebot.models import (
 app = Flask(__name__)
 
 # Channel Access Token
-line_bot_api = LineBotApi('T/ZgFHSeJC1L6UBQWXEWD/yrV6ZtUI6M3Nj7q1dWsbnyyHo5nMugIw5PEHyq/sp4ZgCJb9DAWSTuEFedqenfMHdQuDraavqIjrGVNibdCS9e+wzmbg6X9FUi/zGtVc0bNBqPUon7OzoVdsKHJMNZSQdB04t89/1O/w1cDnyilFU=')
+line_bot_api = LineBotApi('nCheFomZPKA81EfMCsgkGDaLIWlGlRdX/i9N4JAa2Vvetw4iB0iKyhX9EushTlct8Xm14AjoAhxifXP1THdjBLoIxT6bruyTKY10+M2Ea5iX0p9zraG/0kFvirKsv4vFV7SyYR7IAuEJvSyzvQDwMAdB04t89/1O/w1cDnyilFU=')
 # Channel Secret
-handler = WebhookHandler('1aa040aad1ecfbcf33d3a5916b4a1439')
+handler = WebhookHandler('a13be1528f294201578d36297fc549a6')
 #===========[ NOTE SAVER ]=======================
 notes = {}
 
@@ -66,21 +65,8 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat mail'))
     if text=="djohan":
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat djohan'))
-    if text=="Bella":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Rumah kamu dimana?'))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
-
-# def handle_message(event):
-#     text = event.message.text #simplify for receove message
-#     sender = event.source.user_id #get usesenderr_id
-#     gid = event.source.sender_id #get group_id
-#     profile = line_bot_api.get_profile(sender)
-#     a=(randint(0, 9))
-#     if a%2:
-#         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Iya'))
-#     else:
-#         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Tidak'))
 
 import os
 if __name__ == "__main__":
