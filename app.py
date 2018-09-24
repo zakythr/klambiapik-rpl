@@ -1,5 +1,4 @@
 from flask import Flask, request, abort
-from random import randint
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -8,6 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import *
+from random import randint
 import requests, json
 
 
