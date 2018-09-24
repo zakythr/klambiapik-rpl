@@ -62,9 +62,9 @@ def handle_message(event):
     if text=="adit":
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat adit'))
     if text=="mail":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat mail'))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu baik mail'))
     if text=="djohan":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat djohan'))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu baik djohan'))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
