@@ -1,4 +1,5 @@
 from flask import Flask, request, abort
+from random import randint
 
 from linebot import (
     LineBotApi, WebhookHandler
@@ -68,6 +69,7 @@ def handle_message(event):
     if text=="Bella":
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Rumah kamu dimana?'))
 
+def handle_message(event):
     text = event.message.text #simplify for receove message
     sender = event.source.user_id #get usesenderr_id
     gid = event.source.sender_id #get group_id
