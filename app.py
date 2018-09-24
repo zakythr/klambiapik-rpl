@@ -64,7 +64,7 @@ def handle_message(event):
     if text=="mail":
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu baik mail'))
     if text=="djohan":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu baik djohan'))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu sangat baik djohan'))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
