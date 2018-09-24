@@ -69,6 +69,8 @@ def handle_message(event):
     if text=="Bella":
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Rumah kamu dimana?'))
 
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
+
 # def handle_message(event):
 #     text = event.message.text #simplify for receove message
 #     sender = event.source.user_id #get usesenderr_id
@@ -79,8 +81,6 @@ def handle_message(event):
 #         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Iya'))
 #     else:
 #         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Tidak'))
-
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
 import os
 if __name__ == "__main__":
