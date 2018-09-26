@@ -1,72 +1,156 @@
-from flask import Flask, request, abort
-from random import randint
+from __future__ import unicode_literals
 
-from linebot import (
-    LineBotApi, WebhookHandler
-)
-from linebot.exceptions import (
-    InvalidSignatureError
-)
-from linebot.models import *
-import requests, json
+from abc import ABCMeta
+
+from future.utils import with_metaclass
+
+from .base import Base
 
 
-import errno
-import os
-import sys, random
-import tempfile
-import requests
-import re
+class Message(with_metaclass(ABCMeta, Base)):
+    """Abstract Base Class of Message."""
 
-from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage,
-    SourceUser, SourceGroup, SourceRoom,
-    TemplateSendMessage, ConfirmTemplate, MessageAction,
-    ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
-    PostbackAction, DatetimePickerAction,
-    CarouselTemplate, CarouselColumn, PostbackEvent,
-    StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
-    ImageMessage, VideoMessage, AudioMessage, FileMessage,
-    UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
-    FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
-    TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent,
-)
+    def __init__(self, id=None, **kwargs):
+        """__init__ method.
+        :param str id: Message ID
+        :param kwargs:
+        """
+        super(Message, self).__init__(**kwargs)
 
-app = Flask(__name__)
+        self.type = None
+        self.id = id
 
-# Channel Access Token
-line_bot_api = LineBotApi('In++hTLWDsGi8712BFxRaC9Qkr/Lbn8fQe6dhkBm+8Fxl6zH19I97WzYRsKEJlX9ZgCJb9DAWSTuEFedqenfMHdQuDraavqIjrGVNibdCS8idf2QmCNpmQqqd9flJQyxNgX4tjBdncjkyTYKA3N4ogdB04t89/1O/w1cDnyilFU=')
-# Channel Secret
-handler = WebhookHandler('1aa040aad1ecfbcf33d3a5916b4a1439')
-#===========[ NOTE SAVER ]=======================
-notes = {}
 
-# Post Request
-@app.route("/callback", methods=['POST'])
-def callback():
-    signature = request.headers['X-Line-Signature']
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
-    return 'OK'
+class TextMessage(Message):
+    """TextMessage.
+    https://devdocs.line.me/en/#text-message
+    Message object which contains the text sent from the source.
+    """
 
-@handler.add(MessageEvent, message=TextMessage)
-def handle_message(event):
-    text = event.message.text #simplify for receove message
-    sender = event.source.user_id #get usesenderr_id
-    gid = event.source.sender_id #get group_id
-    profile = line_bot_api.get_profile(sender)
-    a=(randint(0, 9))
-    if a%2:
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Iya'))
-    else:
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Tidak'))
+    def __init__(self, id=None, text=None, **kwargs):
+        """__init__ method.
+        :param str id: Message ID
+        :param str text: Message text
+        :param kwargs:
+        """
+        super(TextMessage, self).__init__(id=id, **kwargs)
 
-import os
-if __name__ == "__main__":
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port)
+        self.type = 'text'
+        self.text = text
+
+
+class ImageMessage(Message):
+    """ImageMessage.
+    https://devdocs.line.me/en/#image-message
+    Message object which contains the image content sent from the source.
+    The binary image data can be retrieved with the Content API.
+    """
+
+    def __init__(self, id=None, **kwargs):
+        """__init__ method.
+        :param str id: Message ID
+        :param kwargs:
+        """
+        super(ImageMessage, self).__init__(id=id, **kwargs)
+
+        self.type = 'image'
+
+
+class VideoMessage(Message):
+    """VideoMessage.
+    https://devdocs.line.me/en/#video-message
+    Message object which contains the video content sent from the source.
+    The binary video data can be retrieved with the Content API.
+    """
+
+    def __init__(self, id=None, **kwargs):
+        """__init__ method.
+        :param str id: Message ID
+        :param kwargs:
+        """
+        super(VideoMessage, self).__init__(id=id, **kwargs)
+
+        self.type = 'video'
+
+
+class AudioMessage(Message):
+    """AudioMessage.
+    https://devdocs.line.me/en/#audio-message
+    Message object which contains the audio content sent from the source.
+    The binary audio data can be retrieved with the Content API.
+    """
+
+    def __init__(self, id=None, **kwargs):
+        """__init__ method.
+        :param str id: Message ID
+        :param kwargs:
+        """
+        super(AudioMessage, self).__init__(id=id, **kwargs)
+
+        self.type = 'audio'
+
+
+class LocationMessage(Message):
+    """LocationMessage.
+    https://devdocs.line.me/en/#location-message
+    """
+
+    def __init__(self, id=None, title=None, address=None, latitude=None, longitude=None,
+                 **kwargs):
+        """__init__ method.
+        :param str id: Message ID
+        :param str title: Title
+        :param str address: Address
+        :param float latitude: Latitude
+        :param float longitude: Longitude
+        :param kwargs:
+        """
+        super(LocationMessage, self).__init__(id=id, **kwargs)
+
+        self.type = 'location'
+        self.title = title
+        self.address = address
+        self.latitude = latitude
+        self.longitude = longitude
+
+
+class StickerMessage(Message):
+    """StickerMessage.
+    https://devdocs.line.me/en/#sticker-message
+    Message object which contains the sticker data sent from the source.
+    For a list of basic LINE stickers and sticker IDs, see sticker list.
+    """
+
+    def __init__(self, id=None, package_id=None, sticker_id=None, **kwargs):
+        """__init__ method.
+        :param str id: Message ID
+        :param str package_id: Package ID
+        :param str sticker_id: Sticker ID
+        :param kwargs:
+        """
+        super(StickerMessage, self).__init__(id=id, **kwargs)
+
+        self.type = 'sticker'
+        self.package_id = package_id
+        self.sticker_id = sticker_id
+
+
+class FileMessage(Message):
+    """FileMessage.
+    https://devdocs.line.me/en/#file-message
+    Message object which contains the file content sent from the source.
+    The binary file data can be retrieved with the Content API.
+    """
+
+    def __init__(self, id=None, file_name=None, file_size=None, **kwargs):
+        """__init__ method.
+        :param str id: Message ID
+        :param str file_name: File Name
+        :param int file_size: File Size
+        :param kwargs:
+        """
+        super(FileMessage, self).__init__(id=id, **kwargs)
+
+        self.type = 'file'
+        self.file_size = file_size
+        self.file_name = file_name
