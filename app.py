@@ -181,13 +181,12 @@ def handle_text_message(event):
                         layout='baseline',
                         margin='md',
                         contents=[
-                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
-                            IconComponent(size='sm', url='https://example.com/grey_star.png'),
-                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
-                            IconComponent(size='sm', url='https://example.com/gold_star.png'),
-                            IconComponent(size='sm', url='https://example.com/grey_star.png'),
-                            TextComponent(text='4.0', size='sm', color='#999999', margin='md',
-                                          flex=0)
+                            IconComponent(size='sm', url='https://cdn.shopify.com/s/files/1/1921/8057/products/mangkuk-porcelain-motif-ayam-jago_300x300.jpg?v=1512376509'),
+                            IconComponent(size='sm', url='https://cdn.shopify.com/s/files/1/1921/8057/products/mangkuk-porcelain-motif-ayam-jago_300x300.jpg?v=1512376509'),
+                            IconComponent(size='sm', url='https://cdn.shopify.com/s/files/1/1921/8057/products/mangkuk-porcelain-motif-ayam-jago_300x300.jpg?v=1512376509'),
+                            IconComponent(size='sm', url='https://cdn.shopify.com/s/files/1/1921/8057/products/mangkuk-porcelain-motif-ayam-jago_300x300.jpg?v=1512376509'),
+                            IconComponent(size='sm', url='https://cdn.shopify.com/s/files/1/1921/8057/products/mangkuk-porcelain-motif-ayam-jago_300x300.jpg?v=1512376509'),
+                            TextComponent(text='4.0', size='sm', color='#999999', margin='md', flex=0)
                         ]
                     ),
                     # info
@@ -409,8 +408,7 @@ def handle_beacon(event):
     line_bot_api.reply_message(
         event.reply_token,
         TextSendMessage(
-            text='Got beacon event. hwid={}, device_message(hex string)={}'.format(
-                event.beacon.hwid, event.beacon.dm)))
+            text='Got beacon event. hwid={}, device_message(hex string)={}'.format(event.beacon.hwid, event.beacon.dm)))
 
 
 if __name__ == "__main__":
