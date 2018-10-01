@@ -67,7 +67,7 @@ def handle_message(event):
     if text=="adit":
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Hello, world'))
     if text=="djohan":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='http://3.bp.blogspot.com/-2AryTrLToFk/T7r79apxCEI/AAAAAAAAABE/2QMSUnUg36I/s1600/linux-penguin-full1_2.jpg',preview_image_url='http://3.bp.blogspot.com/-2AryTrLToFk/T7r79apxCEI/AAAAAAAAABE/2QMSUnUg36I/s1600/linux-penguin-full1_2.jpg'))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg',preview_image_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg'))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
