@@ -64,9 +64,9 @@ def handle_message(event):
     gid = event.source.sender_id #get group_id
     profile = line_bot_api.get_profile(sender)
     if text=="adit":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://gambarmania.website/wp-content/uploads/2017/11/Gambar-Sketsa-Ayam-Jantan.jpg',preview_image_url='https://gambarmania.website/wp-content/uploads/2017/11/Gambar-Sketsa-Ayam-Jantan.jpg'))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='hhttps://gambarmania.website/wp-content/uploads/2017/11/Gambar-Sketsa-Ayam-Jantan.jpg',preview_image_url='https://gambarmania.website/wp-content/uploads/2017/11/Gambar-Sketsa-Ayam-Jantan.jpg'))
     if text=="djohan":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://gambarmania.website/wp-content/uploads/2017/11/Gambar-Sketsa-Ayam-Jantan.jpg',preview_image_url='https://gambarmania.website/wp-content/uploads/2017/11/Gambar-Sketsa-Ayam-Jantan.jpg'))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='http://3.bp.blogspot.com/-2AryTrLToFk/T7r79apxCEI/AAAAAAAAABE/2QMSUnUg36I/s1600/linux-penguin-full1_2.jpg',preview_image_url='http://3.bp.blogspot.com/-2AryTrLToFk/T7r79apxCEI/AAAAAAAAABE/2QMSUnUg36I/s1600/linux-penguin-full1_2.jpg'))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
