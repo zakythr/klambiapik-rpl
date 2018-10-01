@@ -66,25 +66,21 @@ def handle_message(event):
     gid = event.source.sender_id #get group_id
     profile = line_bot_api.get_profile(sender)
     if text=="adit":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat adit'))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat adit'),StickerSendMessage(package_id=1, sticker_id=1)
     if text=="mail":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat mail'))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat mail'),StickerSendMessage(package_id=1, sticker_id=1)
     if text=="djohan":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat djohan'))
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat djohan'),StickerSendMessage(package_id=1, sticker_id=1)
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
-@handler.add(MessageEvent, message=LocationMessage)
-def handle_location_message(event):
-    line_bot_api.reply_message(event.reply_token,LocationSendMessage(title=event.message.title, address=event.message.address, latitude=event.message.latitude, longitude=event.message.longitude))
+# @handler.add(MessageEvent, message=LocationMessage)
+# def handle_location_message(event):
+#     line_bot_api.reply_message(event.reply_token,LocationSendMessage(title=event.message.title, address=event.message.address, latitude=event.message.latitude, longitude=event.message.longitude))
 
-@handler.add(MessageEvent, message=StickerMessage)
-def handle_sticker_message(event):
-    text = event.message.text #simplify for receove message
-    sender = event.source.user_id #get usesenderr_id
-    gid = event.source.sender_id #get group_id
-    if text=="Mama":
-    line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=1))
+# @handler.add(MessageEvent, message=StickerMessage)
+# def handle_sticker_message(event):
+#     line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=1))
 
 import os
 if __name__ == "__main__":
