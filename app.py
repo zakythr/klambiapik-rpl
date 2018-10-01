@@ -83,42 +83,30 @@ def callback():
 
 
 @handler.add(MessageEvent, message=TextMessage)
-def handle_text_message(event):
+def handle_message(event):
     text = event.message.text
+    sender = event.source.user_id #get usesenderr_id
+    gid = event.source.sender_id #get group_id
+    profile = line_bot_api.get_profile(sender)
 
     if text == 'profile':
         if isinstance(event.source, SourceUser):
             profile = line_bot_api.get_profile(event.source.user_id)
-            line_bot_api.reply_message(
-                event.reply_token, [
-                    TextSendMessage(text='Display name: ' + profile.display_name),
-                    TextSendMessage(text='Status message: ' + profile.status_message)
-                ]
-            )
+            line_bot_api.reply_message(event.reply_token, [TextSendMessage(text='Display name: ' + profile.display_name), TextSendMessage(text='Status message: ' + profile.status_message)])
         else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="Bot can't use profile API without user ID"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="Bot can't use profile API without user ID"))
     elif text == 'bye':
         if isinstance(event.source, SourceGroup):
-            line_bot_api.reply_message(
-                event.reply_token, TextSendMessage(text='Leaving group'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Leaving group'))
             line_bot_api.leave_group(event.source.group_id)
         elif isinstance(event.source, SourceRoom):
-            line_bot_api.reply_message(
-                event.reply_token, TextSendMessage(text='Leaving group'))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Leaving group'))
             line_bot_api.leave_room(event.source.room_id)
         else:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text="Bot can't leave from 1:1 chat"))
+            line_bot_api.reply_message(event.reply_token, TextSendMessage(text="Bot can't leave from 1:1 chat"))
     elif text == 'confirm':
-        confirm_template = ConfirmTemplate(text='Do it?', actions=[
-            MessageAction(label='Yes', text='Yes!'),
-            MessageAction(label='No', text='No!'),
-        ])
-        template_message = TemplateSendMessage(
-            alt_text='Confirm alt text', template=confirm_template)
+        confirm_template = ConfirmTemplate(text='Do it?', actions=[MessageAction(label='Yes', text='Yes!'), MessageAction(label='No', text='No!')],)
+        template_message = TemplateSendMessage(alt_text='Confirm alt text', template=confirm_template)
         line_bot_api.reply_message(event.reply_token, template_message)
     elif text == 'buttons':
         buttons_template = ButtonsTemplate(
@@ -128,8 +116,7 @@ def handle_text_message(event):
                 PostbackAction(label='ping with text', data='ping', text='ping'),
                 MessageAction(label='Translate Rice', text='米')
             ])
-        template_message = TemplateSendMessage(
-            alt_text='Buttons alt text', template=buttons_template)
+        template_message = TemplateSendMessage(alt_text='Buttons alt text', template=buttons_template)
         line_bot_api.reply_message(event.reply_token, template_message)
     elif text == 'carousel':
         carousel_template = CarouselTemplate(columns=[
@@ -411,15 +398,20 @@ def handle_beacon(event):
             text='Got beacon event. hwid={}, device_message(hex string)={}'.format(event.beacon.hwid, event.beacon.dm)))
 
 
+# if __name__ == "__main__":
+#     arg_parser = ArgumentParser(
+#         usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
+#     )
+#     arg_parser.add_argument('-p', '--port', type=int, default=8000, help='port')
+#     arg_parser.add_argument('-d', '--debug', default=False, help='debug')
+#     options = arg_parser.parse_args()
+
+#     # create tmp dir for download content
+#     make_static_tmp_dir()
+
+#     app.run(debug=options.debug, port=options.port)
+
+import os
 if __name__ == "__main__":
-    arg_parser = ArgumentParser(
-        usage='Usage: python ' + __file__ + ' [--port <port>] [--help]'
-    )
-    arg_parser.add_argument('-p', '--port', type=int, default=8000, help='port')
-    arg_parser.add_argument('-d', '--debug', default=False, help='debug')
-    options = arg_parser.parse_args()
-
-    # create tmp dir for download content
-    make_static_tmp_dir()
-
-    app.run(debug=options.debug, port=options.port)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host='0.0.0.0', port=port)
