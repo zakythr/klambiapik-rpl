@@ -66,9 +66,9 @@ def handle_message(event):
     gid = event.source.sender_id #get group_id
     profile = line_bot_api.get_profile(sender)
     if text=="adit":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://cdn2.boombastis.com/wp-content/uploads/2017/09/lukisanp.jpg',preview_image_url='https://cdn2.boombastis.com/wp-content/uploads/2017/09/lukisanp.jpg'))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://kuka.co.id/asset/shop_photo/2d0799e15479131039bf545fcbc39971.jpg',preview_image_url='https://kuka.co.id/asset/shop_photo/2d0799e15479131039bf545fcbc39971.jpg'))
     if text=="mail":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://cdn2.boombastis.com/wp-content/uploads/2017/09/lukisanp.jpg',preview_image_url='https://cdn2.boombastis.com/wp-content/uploads/2017/09/lukisanp.jpg'))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://kuka.co.id/asset/shop_photo/2d0799e15479131039bf545fcbc39971.jpg',preview_image_url='https://kuka.co.id/asset/shop_photo/2d0799e15479131039bf545fcbc39971.jpg'))
     if text=="djohan":
         line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Kamu jahat djohan'))
 
