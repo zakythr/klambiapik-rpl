@@ -18,13 +18,13 @@ class TestLineBotApi(unittest.TestCase):
         self.tested = LineBotApi('channel_secret')
 
         self.audio_message = AudioSendMessage(
-            original_content_url='https://example.com/original.m4a',
+            original_content_url='http://laguaz.net/listen-song/pasar-bisa-diciptakan-vQ9JGckNpS',
             duration=240000
         )
 
         self.message = [{
             "type": "audio",
-            "originalContentUrl": "https://example.com/original.m4a",
+            "originalContentUrl": "http://laguaz.net/listen-song/pasar-bisa-diciptakan-vQ9JGckNpS",
             "duration": 240000,
         }]
 
