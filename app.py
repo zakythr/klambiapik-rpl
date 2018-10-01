@@ -80,11 +80,11 @@ def handle_location_message(event):
 
 @handler.add(MessageEvent, message=StickerMessage)
 def handle_sticker_message(event):
-    text = event.message.text #simplify for receove message
-    sender = event.source.user_id #get usesenderr_id
-    gid = event.source.sender_id #get group_id
-    profile = line_bot_api.get_profile(sender)
-    if text=="adit":
+    # text = event.message.text #simplify for receove message
+    # sender = event.source.user_id #get usesenderr_id
+    # gid = event.source.sender_id #get group_id
+    # profile = line_bot_api.get_profile(sender)
+    # if text=="adit":
     line_bot_api.reply_message(event.reply_token, StickerSendMessage(package_id=1, sticker_id=1))
 
 import os
