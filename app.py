@@ -1,34 +1,35 @@
-from __future__ import unicode_literals
-
-import errno
-import os
-import sys
-import tempfile
-import requests
-import re
-
 from flask import Flask, request, abort
 
 from linebot import (
     LineBotApi, WebhookHandler
 )
 from linebot.exceptions import (
-    LineBotApiError, InvalidSignatureError
+    InvalidSignatureError
 )
+from linebot.models import *
+import requests, json
+
+
+import errno
+import os
+import sys, random
+import tempfile
+import requests
+import re
+
 from linebot.models import (
     MessageEvent, TextMessage, TextSendMessage,
     SourceUser, SourceGroup, SourceRoom,
     TemplateSendMessage, ConfirmTemplate, MessageAction,
     ButtonsTemplate, ImageCarouselTemplate, ImageCarouselColumn, URIAction,
     PostbackAction, DatetimePickerAction,
-    CameraAction, CameraRollAction, LocationAction,
     CarouselTemplate, CarouselColumn, PostbackEvent,
     StickerMessage, StickerSendMessage, LocationMessage, LocationSendMessage,
     ImageMessage, VideoMessage, AudioMessage, FileMessage,
     UnfollowEvent, FollowEvent, JoinEvent, LeaveEvent, BeaconEvent,
     FlexSendMessage, BubbleContainer, ImageComponent, BoxComponent,
     TextComponent, SpacerComponent, IconComponent, ButtonComponent,
-    SeparatorComponent, QuickReply, QuickReplyButton
+    SeparatorComponent,
 )
 
 app = Flask(__name__)
