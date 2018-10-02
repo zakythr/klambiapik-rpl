@@ -69,7 +69,7 @@ def handle_message(event):
     if text=="mama":
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg',preview_image_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg'))
     if text=="papa":
-        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='https://www.youtube.com/watch?v=WwuGehpY4pg',preview_image_url='http://www.gerak-an.com/wp-content/uploads/2015/08/efek-rumah-kaca-at-captwore-149.jpg'))
+        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='https://www.youtube.com/watch?v=ezWCLhZhDkw',preview_image_url='https://ecs7.tokopedia.net/img/cache/700/product-1/2017/7/29/600547/600547_9c950a89-e32b-4ec5-bd90-8ccedb2effe8.jpg'))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
