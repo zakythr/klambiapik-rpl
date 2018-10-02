@@ -72,6 +72,8 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='https://www.youtube.com/watch?v=ezWCLhZhDkw',preview_image_url='https://ecs7.tokopedia.net/img/cache/700/product-1/2017/7/29/600547/600547_9c950a89-e32b-4ec5-bd90-8ccedb2effe8.jpg'))
     if text=="zaky":
         line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='my location',address='Sidoarjo',latitude=-7.365552,longitude=112.760670))
+    if text=="dadang":
+        line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id='2',sticker_id='507'))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
