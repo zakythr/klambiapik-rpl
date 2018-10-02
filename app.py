@@ -70,12 +70,8 @@ def handle_message(event):
         line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg',preview_image_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg'))
     if text=="papa":
         line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='https://www.youtube.com/watch?v=ezWCLhZhDkw',preview_image_url='https://ecs7.tokopedia.net/img/cache/700/product-1/2017/7/29/600547/600547_9c950a89-e32b-4ec5-bd90-8ccedb2effe8.jpg'))
-    if text=='tuan':
-        line_bot_api.get_profile('U77ece03c792be8a0b931471cd636ba7a')
-            print(profile.display_name)
-            print(profile.user_id)
-            print(profile.picture_url)
-            print(profile.status_message)
+    if text=="zaky":
+        line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='my location',address='Sidoarjo',latitude=-7.365552,longitude=112.760670))
 
     line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
