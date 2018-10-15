@@ -42,16 +42,31 @@ handler = WebhookHandler('1aa040aad1ecfbcf33d3a5916b4a1439')
 notes = {}
 
 
+#REQUEST DATA MHS
+def carimhs(input):
+    URLmhs = 
+"https://www.aditmasih.tk/api_yemima/show.php?nrp=" + 
+input
+    irham = requests.get(URLmhs)
+    data = irham.json()
+    err = "data tidak ditemukan"
+    
+    flag = data['flag']
+    if(flag == "1"):
+        nrp = data['data_admin'][0]['nrp']
+        nama = data['data_admin'][0]['nama']
+        kos = data['data_admin'][0]['alamat']
+
+        return nama + '\n' + nrp + '\n' + kos
+    elif(flag == "0"):
+        return err    
+
+# Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
-
-    # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-
-    # handle webhook body
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -64,18 +79,8 @@ def handle_message(event):
     sender = event.source.user_id #get usesenderr_id
     gid = event.source.sender_id #get group_id
     profile = line_bot_api.get_profile(sender)
-    if text=="adit":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo Kawan'))
-    if text=="mama":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg',preview_image_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg'))
-    if text=="papa":
-        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='https://www.youtube.com/watch?v=ezWCLhZhDkw',preview_image_url='https://ecs7.tokopedia.net/img/cache/700/product-1/2017/7/29/600547/600547_9c950a89-e32b-4ec5-bd90-8ccedb2effe8.jpg'))
-    if text=="zaky":
-        line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='my location',address='Sidoarjo',latitude=-7.365552,longitude=112.760670))
-    if text=="dadang":
-        line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id='2',sticker_id='507'))
-
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=carimhs(text)))
+    #line_bot_api.reply_message(event.reply_token,TextSendMessage(text="masuk"))
 
 import os
 if __name__ == "__main__":
