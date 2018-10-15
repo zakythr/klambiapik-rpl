@@ -41,46 +41,81 @@ handler = WebhookHandler('1aa040aad1ecfbcf33d3a5916b4a1439')
 #===========[ NOTE SAVER ]=======================
 notes = {}
 
-
-#REQUEST DATA MHS
-def carimhs(input):
-    URLmhs = 
-"https://www.aditmasih.tk/api_yemima/show.php?nrp=" + 
-input
-    irham = requests.get(URLmhs)
-    data = irham.json()
-    err = "data tidak ditemukan"
-    
-    flag = data['flag']
-    if(flag == "1"):
-        nrp = data['data_admin'][0]['nrp']
-        nama = data['data_admin'][0]['nama']
-        kos = data['data_admin'][0]['alamat']
-
-        return nama + '\n' + nrp + '\n' + kos
-    elif(flag == "0"):
-        return err    
-
-# Post Request
-@app.route("/callback", methods=['POST'])
-def callback():
-    signature = request.headers['X-Line-Signature']
-    body = request.get_data(as_text=True)
-    app.logger.info("Request body: " + body)
-    try:
-        handler.handle(body, signature)
-    except InvalidSignatureError:
-        abort(400)
-    return 'OK'
-
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    text = event.message.text #simplify for receove message
+    teks = event.message.text
+    text = teks.lower().strip()
+    data=text.split('-')
+    data2=text.split(' ')
     sender = event.source.user_id #get usesenderr_id
     gid = event.source.sender_id #get group_id
     profile = line_bot_api.get_profile(sender)
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text=carimhs(text)))
-    #line_bot_api.reply_message(event.reply_token,TextSendMessage(text="masuk"))
+
+#MENAMPILKAN MENU
+    if text=="/menu":
+        menu="1. '/sangar' gawe ndelok kesangaran wong-wong\n2. '/spam-[kalimat]-[jumlah spam]' gawe nyepam wong sing mbok sayang\n3. '/spamkata [kalimat]' gawe nyepam tiap kata sebanyak kalimat sing diketik\n4. '/bye' gawe ngetokno bot teko grup opo room\n5. '/rev-[kalimat]' gawe ngewalik tulisan\n6. '/dev' ndelok pengembang bot line iki\n7. tiap ngetik ng grup opo room isok munculo terjemahan boso jowo\n\nawakmu bebas isok ngetik keyword nggawe huruf gede opo cilik"  
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=menu))
+
+#PENGEMBANGAN
+    if text=="rey":
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://azurlane.koumakan.jp/w/images/d/d8/San_Diego.png',preview_image_url='https://azurlane.koumakan.jp/w/images/d/d8/San_Diego.png'))
+    if text=="Google Center":
+        line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='Mountain View, California', address='United State of America',latitude=37.4225195,longitude=-122.0847433))
+    if text=="/dev":
+        dev="Dikembangkan oleh Andhika Yoga Perdana, mahasiswa Informatika ITS, dengan menggunakan bahasa Python, PHP, dan mySQL"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=dev))
+#MENU SANGAR
+    elif(data[0]=='/sangar'):
+        pro = "Wong suroboyo terkenal karo kesangarane. Sak piro sangarmu cak?\n1. lihat-[id]\n2. tambah-[id]-[kesangaran]\n3. hapus-[id]\n4. ganti-[id lama]-[id baru]-[kesangaran baru]\n5. kabeh"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=pro))
+
+#SUB MENU SANGAR
+    if(data[0]=='lihat'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=carimhs(data[1])))
+    elif(data[0]=='tambah'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=inputmhs(data[1],data[2])))
+    elif(data[0]=='hapus'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=hapusmhs(data[1])))
+    elif(data[0]=='ganti'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=updatemhs(data[1],data[2],data[3],data[4])))
+    elif(data[0]=='kabeh'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=allsmhs()))
+
+    elif(data[0]=='kamus'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=inputput(data[1],data[2])))
+
+#SPAM
+    elif (data[0]=='/spam'):
+        i = 0
+        if(int(data[2])>25):
+            if isinstance(event.source, SourceGroup):
+                line_bot_api.push_message(event.source.group_id,TextSendMessage(text="kakean woi, nggarakno server lemot ae"))
+            elif isinstance(event.source, SourceRoom):
+                line_bot_api.push_message(event.source.room_id,TextSendMessage(text="kakean woi, nggarakno server lemot ae"))
+        else:
+            while i < int(data[2]):
+                if isinstance(event.source, SourceGroup):
+                    line_bot_api.push_message(event.source.group_id,TextSendMessage(text=data[1]))
+                elif isinstance(event.source, SourceRoom):
+                    line_bot_api.push_message(event.source.room_id,TextSendMessage(text=data[1]))
+                #else:
+                #   line_bot_api.push_message(event.source.user_id,TextSendMessage(text=data[1]))
+                i =i+1
+
+#TINGGALKAN GROUP/ROOM
+    elif text=="/bye":
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Pingin ngekick aku?:(\nketik "/start" gawe ngekick!'))
+    elif text=="/start":
+        if isinstance(event.source, SourceGroup):
+            line_bot_api.push_message(event.source.group_id, TextSendMessage(text='Woy '+profile.display_name+', kurang ajar banget kon wani ngekick aku teko grup iki!'))
+            line_bot_api.push_message(event.source.room_id, TextSendMessage(text='Sepurane rek aku tinggal disek, aku bosen ng kene! GAK MENARIK blass cuk'))
+            line_bot_api.leave_group(event.source.group_id)
+        elif isinstance(event.source, SourceRoom):
+            line_bot_api.push_message(event.source.room_id, TextSendMessage(text='Woy '+profile.display_name+', kurang ajar banget kon wani ngekick aku teko grup iki!'))
+            line_bot_api.push_message(event.source.room_id, TextSendMessage(text='Sepurane rek aku tinggal disek, aku bosen ng kene! GAK MENARIK blass cuk'))
+            line_bot_api.leave_room(event.source.room_id)
+        else: 
+            line_bot_api.reply_message(event.reply_token,TextSendMessage(text="Mending blokiren aku daripada ngekick aku"))
 
 import os
 if __name__ == "__main__":
