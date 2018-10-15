@@ -41,48 +41,41 @@ handler = WebhookHandler('1aa040aad1ecfbcf33d3a5916b4a1439')
 #===========[ NOTE SAVER ]=======================
 notes = {}
 
+
+@app.route("/callback", methods=['POST'])
+def callback():
+    # get X-Line-Signature header value
+    signature = request.headers['X-Line-Signature']
+
+    # get request body as text
+    body = request.get_data(as_text=True)
+    app.logger.info("Request body: " + body)
+
+    # handle webhook body
+    try:
+        handler.handle(body, signature)
+    except InvalidSignatureError:
+        abort(400)
+    return 'OK'
+
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    teks = event.message.text
-    text = teks.lower().strip()
-    data=text.split('-')
-    data2=text.split(' ')
+    text = event.message.text #simplify for receove message
     sender = event.source.user_id #get usesenderr_id
     gid = event.source.sender_id #get group_id
     profile = line_bot_api.get_profile(sender)
+    if text=="adit":
+        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo Kawan'))
+    if text=="mama":
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg',preview_image_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg'))
+    if text=="papa":
+        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='https://www.youtube.com/watch?v=ezWCLhZhDkw',preview_image_url='https://ecs7.tokopedia.net/img/cache/700/product-1/2017/7/29/600547/600547_9c950a89-e32b-4ec5-bd90-8ccedb2effe8.jpg'))
+    if text=="zaky":
+        line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='my location',address='Sidoarjo',latitude=-7.365552,longitude=112.760670))
+    if text=="dadang":
+        line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id='2',sticker_id='507'))
 
-#MENAMPILKAN MENU
-    if text=="/menu":
-        menu="1. '/sangar' gawe ndelok kesangaran wong-wong\n2. '/spam-[kalimat]-[jumlah spam]' gawe nyepam wong sing mbok sayang\n3. '/spamkata [kalimat]' gawe nyepam tiap kata sebanyak kalimat sing diketik\n4. '/bye' gawe ngetokno bot teko grup opo room\n5. '/rev-[kalimat]' gawe ngewalik tulisan\n6. '/dev' ndelok pengembang bot line iki\n7. tiap ngetik ng grup opo room isok munculo terjemahan boso jowo\n\nawakmu bebas isok ngetik keyword nggawe huruf gede opo cilik"  
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=menu))
-
-#PENGEMBANGAN
-    if text=="rey":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJnBoXCQfR16ILIYBCrxyovSI86b32DblCcnrT8mFn5QDsyXv9EA',preview_image_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJnBoXCQfR16ILIYBCrxyovSI86b32DblCcnrT8mFn5QDsyXv9EA'))
-    if text=="Google Center":
-        line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='Mountain View, California', address='United State of America',latitude=37.4225195,longitude=-122.0847433))
-    if text=="/dev":
-        dev="Dikembangkan oleh Andhika Yoga Perdana, mahasiswa Informatika ITS, dengan menggunakan bahasa Python, PHP, dan mySQL"
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=dev))
-#MENU SANGAR
-    elif(data[0]=='/sangar'):
-        pro = "Wong suroboyo terkenal karo kesangarane. Sak piro sangarmu cak?\n1. lihat-[id]\n2. tambah-[id]-[kesangaran]\n3. hapus-[id]\n4. ganti-[id lama]-[id baru]-[kesangaran baru]\n5. kabeh"
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=pro))
-
-#TINGGALKAN GROUP/ROOM
-    elif text=="/bye":
-        line_bot_api.reply_message(event.reply_token, TextSendMessage(text='Pingin ngekick aku?:(\nketik "/start" gawe ngekick!'))
-    elif text=="/start":
-        if isinstance(event.source, SourceGroup):
-            line_bot_api.push_message(event.source.group_id, TextSendMessage(text='Woy '+profile.display_name+', kurang ajar banget kon wani ngekick aku teko grup iki!'))
-            line_bot_api.push_message(event.source.room_id, TextSendMessage(text='Sepurane rek aku tinggal disek, aku bosen ng kene! GAK MENARIK blass cuk'))
-            line_bot_api.leave_group(event.source.group_id)
-        elif isinstance(event.source, SourceRoom):
-            line_bot_api.push_message(event.source.room_id, TextSendMessage(text='Woy '+profile.display_name+', kurang ajar banget kon wani ngekick aku teko grup iki!'))
-            line_bot_api.push_message(event.source.room_id, TextSendMessage(text='Sepurane rek aku tinggal disek, aku bosen ng kene! GAK MENARIK blass cuk'))
-            line_bot_api.leave_room(event.source.room_id)
-        else: 
-            line_bot_api.reply_message(event.reply_token,TextSendMessage(text="Mending blokiren aku daripada ngekick aku"))
+    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
 import os
 if __name__ == "__main__":
