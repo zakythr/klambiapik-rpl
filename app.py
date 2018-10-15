@@ -58,7 +58,7 @@ def handle_message(event):
 
 #PENGEMBANGAN
     if text=="rey":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://azurlane.koumakan.jp/w/images/d/d8/San_Diego.png',preview_image_url='https://azurlane.koumakan.jp/w/images/d/d8/San_Diego.png'))
+        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJnBoXCQfR16ILIYBCrxyovSI86b32DblCcnrT8mFn5QDsyXv9EA',preview_image_url='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSJnBoXCQfR16ILIYBCrxyovSI86b32DblCcnrT8mFn5QDsyXv9EA'))
     if text=="Google Center":
         line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='Mountain View, California', address='United State of America',latitude=37.4225195,longitude=-122.0847433))
     if text=="/dev":
