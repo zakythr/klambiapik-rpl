@@ -6,6 +6,7 @@ from linebot import (
 from linebot.exceptions import (
     InvalidSignatureError
 )
+from random import randint
 from linebot.models import *
 import requests, json
 
@@ -14,7 +15,7 @@ import errno
 import os
 import sys, random
 import tempfile
-import requests
+import requests, json
 import re
 
 from linebot.models import (
@@ -41,17 +42,106 @@ handler = WebhookHandler('1aa040aad1ecfbcf33d3a5916b4a1439')
 #===========[ NOTE SAVER ]=======================
 notes = {}
 
+#INPUT DATA MHS buat di app.py
+def inputmhs(nrpku, namaku, daeasal, jurusanku):
+    r = requests.post("http://www.aditmasih.tk/zaky-api/insert.php", data={'nrpku': nrpku, 'namaku': namaku, 'daeasal': daeasal, 'jurusanku': jurusanku})
+    data = r.json()
 
+    flag = data['flag']
+   
+    if(flag == "1"):
+        return 'Data '+' berhasil dimasukkan\n'
+    elif(flag == "0"):
+        return 'Data gagal dimasukkan\n'
+
+def carimhs(nrpku):
+    URL = "http://www.aditmasih.tk/zaky-api/show.php?nrpku=" + nrpku
+    r = requests.get(URL)
+    data = r.json()
+    err = "data tidak ditemukan"
+    
+    flag = data['flag']
+    if(flag == "1"):
+        nrpku = data['data_mhs'][0]['nrpku']
+        namaku = data['data_mhs'][0]['namaku']
+        daeasal = data['data_mhs'][0]['daeasal']
+        jurusanku = data['data_mhs'][0]['jurusanku']
+
+        # munculin semua, ga rapi, ada 'u' nya
+        # all_data = data['data_angkatan'][0]
+        data= "Nama Mahasiswa : "+namaku+"\nNRP : "+nrpku+"\nDaerah Asal : "+daeasal+"\nJurusan : "+jurusanku
+        return data
+        # return all_data
+
+    elif(flag == "0"):
+        return err
+
+def allmhs():
+    r = requests.post("http://www.aditmasih.tk/zaky-api/all.php")
+    data = r.json()
+
+    flag = data['flag']
+   
+    if(flag == "1"):
+        hasil = ""
+        for i in range(0,len(data['data_mhs'])):
+            id_buku = data['data_mhs'][int(i)][0]
+            judul_buku = data['data_mhs'][int(i)][2]
+            pengarang = data['data_mhs'][int(i)][4]
+            tahun = data['data_mhs'][int(i)][6]
+            hasil=hasil+str(i+1)
+            hasil=hasil+".\nNRP : "
+            hasil=hasil+nrpku
+            hasil=hasil+"\nNama Mahasiswa : "
+            hasil=hasil+namaku
+            hasil=hasil+"\nDaerah Asal : "
+            hasil=hasil+daeasal
+            hasil=hasil+"\nJurusan :"
+            hasil=hasil+jurusanku
+            hasil=hasil+"\n"
+        return hasil
+    elif(flag == "0"):
+        return 'Mahasiswa kosong\n'
+
+def hapusmhs(nrpku):
+    r = requests.post("http://www.aditmasih.tk/zaky-api/delete.php", data={'nrpku': nrpku})
+    data = r.json()
+
+    flag = data['flag']
+   
+    if(flag == "1"):
+        return 'Data '+nrpku+' berhasil dihapus\n'
+    elif(flag == "0"):
+        return 'Data gagal dihapus\n'
+
+def updatemhs(nrpLama,nrpku,namaku,daeasal,jurusanku):
+    URL = "http://www.aditmasih.tk/zaky-api/show.php?nrpku=" + nrpLama
+    r = requests.get(URL)
+    data = r.json()
+    err = "data tidak ditemukan"
+    nrpLama=nrplama
+    flag = data['flag']
+    if(flag == "1"):
+        r = requests.post("http://www.aditmasih.tk/zaky-api/update.php", data={'nrplama':nrplama, 'nrpku': nrpku, 'namaku': namaku,
+         'daeasal': daeasal, 'jurusanku': jurusanku})
+        data = r.json()
+        flag = data['flag']
+
+        if(flag == "1"):
+            return 'Data '+id_lama+' berhasil diupdate\n'
+        elif(flag == "0"):
+            return 'Data gagal diupdate\n'
+
+    elif(flag == "0"):
+        return err
+
+
+# Post Request
 @app.route("/callback", methods=['POST'])
 def callback():
-    # get X-Line-Signature header value
     signature = request.headers['X-Line-Signature']
-
-    # get request body as text
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
-
-    # handle webhook body
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -60,23 +150,29 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
+
     text = event.message.text #simplify for receove message
     sender = event.source.user_id #get usesenderr_id
     gid = event.source.sender_id #get group_id
     profile = line_bot_api.get_profile(sender)
-    if text=="adit":
-        line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo Kawan'))
-    if text=="mama":
-        line_bot_api.reply_message(event.reply_token,ImageSendMessage(original_content_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg',preview_image_url='https://cdn.sindonews.net/dyn/620/content/2015/04/15/40/989729/ini-kapal-perang-china-yang-jadi-momok-bagi-as-gCA.jpg'))
-    if text=="papa":
-        line_bot_api.reply_message(event.reply_token,VideoSendMessage(original_content_url='https://www.youtube.com/watch?v=ezWCLhZhDkw',preview_image_url='https://ecs7.tokopedia.net/img/cache/700/product-1/2017/7/29/600547/600547_9c950a89-e32b-4ec5-bd90-8ccedb2effe8.jpg'))
-    if text=="zaky":
-        line_bot_api.reply_message(event.reply_token,LocationSendMessage(title='my location',address='Sidoarjo',latitude=-7.365552,longitude=112.760670))
-    if text=="dadang":
-        line_bot_api.reply_message(event.reply_token,StickerSendMessage(package_id='2',sticker_id='507'))
+    
+    data=text.split('-')
+    if(data[0]=='lihat'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=carimhs(data[1])))
+    elif(data[0]=='tambah'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=inputmhs(data[1],data[2],data[3],data[4])))
+    elif(data[0]=='hapus'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=hapusmhs(data[1])))
+    elif(data[0]=='ganti'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=updatemhs(data[1],data[2],data[3],data[4],data[5])))
+    elif(data[0]=='semua'):
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=allmhs()))
+    elif(data[0]=='menu'):
+        menu = "1. lihat-[nrpku]\n2. tambah-[nrpku]-[namaku]-[daeasal]-[jurusanku]\n3. hapus-[nrpku]\n4. ganti-[id lama]-[id baru]-[namaku baru]-[daeasal baru]-[jurusanku baru]\n5. semua"
+        line_bot_api.reply_message(event.reply_token, TextSendMessage(text=menu))
 
-    line_bot_api.reply_message(event.reply_token,TextSendMessage(text='Halo '+profile.display_name+'\nKata Kunci Tidak Diketahui :) \nKetik "menu" untuk mengetahui menu yang tersedia'))
 
+    
 import os
 if __name__ == "__main__":
     port = int(os.environ.get('PORT', 5000))
