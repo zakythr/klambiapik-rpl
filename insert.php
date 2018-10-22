@@ -7,7 +7,7 @@
 		$sangar = $_POST['sangar'];
         
         
-		$queryResult = $conn->query("INSERT INTO `api_andhika` (nmr, sangar) VALUES ('$user_id', '$sangar')");
+		$queryResult = $conn->query("INSERT INTO `zaky_api` (nmr, sangar) VALUES ('$user_id', '$sangar')");
 
 		echo json_encode(array( 'flag'=>"1" ), JSON_PRETTY_PRINT);
 	}
