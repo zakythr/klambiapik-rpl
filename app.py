@@ -86,9 +86,9 @@ def allmhs():
         hasil = ""
         for i in range(0,len(data['data_mhs'])):
             nomer = data['data_mhs'][int(i)][0]
-            judul_buku = data['data_mhs'][int(i)][2]
-            pengarang = data['data_mhs'][int(i)][4]
-            tahun = data['data_mhs'][int(i)][6]
+            namaku = data['data_mhs'][int(i)][2]
+            daeasal = data['data_mhs'][int(i)][4]
+            jurusanku = data['data_mhs'][int(i)][6]
             hasil=hasil+str(i+1)
             hasil=hasil+".\nNo : "
             hasil=hasil+nomer
