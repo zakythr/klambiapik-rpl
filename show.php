@@ -1,10 +1,10 @@
 <?php
 	include('conn.php');
     //print_r($_GET);
-    if (isset($_GET['nrpku'])) {
-        $nrpku = $_GET['nrpku'];
+    if (isset($_GET['nomer'])) {
+        $nrpku = $_GET['nomer'];
         
-        $result = mysqli_query($conn, "SELECT * FROM `zaky-api` where nrpku=".$nrpku);
+        $result = mysqli_query($conn, "SELECT * FROM `zaky-api` where nomer=".$nomer);
         // print_r($result);
         $data = array();
         

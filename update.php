@@ -1,14 +1,14 @@
 <?php
 	include('conn.php');
 
-	if (!empty($_POST['nrpku']) && !empty($_POST['namaku']) && !empty($_POST['daeasal'])  && !empty($_POST['jurusanku'])) {
+	if (!empty($_POST['nomer']) && !empty($_POST['namaku']) && !empty($_POST['daeasal'])  && !empty($_POST['jurusanku'])) {
 
-		$nrpku = $_POST['nrpku'];
+		$nomer = $_POST['nomer'];
 		$namaku = $_POST['namaku'];
 		$daeasal = $_POST['daeasal'];
 		$jurusanku = $_POST['jurusanku'];
-        $nrplama = $_POST['nrplama'];
-		$queryResult = $conn->query("UPDATE `zaky-api` SET nrpku = '$nrpku', namaku = '$namaku', daeasal = '$daeasal', jurusanku= '$jurusanku' WHERE nrpku ='$nrplama'");
+        $nmr_lama = $_POST['nmr_lama'];
+		$queryResult = $conn->query("UPDATE `zaky-api` SET nomer = '$nomer', namaku = '$namaku', daeasal = '$daeasal', jurusanku= '$jurusanku' WHERE nomer ='$nmr_lama'");
         if($queryResult==true)
     		echo json_encode(array( 'flag'=>"1" ), JSON_PRETTY_PRINT);
     	else

@@ -43,8 +43,8 @@ handler = WebhookHandler('1aa040aad1ecfbcf33d3a5916b4a1439')
 notes = {}
 
 #INPUT DATA MHS buat di app.py
-def inputmhs(nrpku, namaku, daeasal, jurusanku):
-    r = requests.post("http://www.aditmasih.tk/zaky-api/insert.php", data={'nrpku': nrpku, 'namaku': namaku, 'daeasal': daeasal, 'jurusanku': jurusanku})
+def inputmhs(nomer, namaku, daeasal, jurusanku):
+    r = requests.post("http://www.aditmasih.tk/zaky-api/insert.php", data={'nomer': nomer, 'namaku': namaku, 'daeasal': daeasal, 'jurusanku': jurusanku})
     data = r.json()
 
     flag = data['flag']
@@ -54,22 +54,22 @@ def inputmhs(nrpku, namaku, daeasal, jurusanku):
     elif(flag == "0"):
         return 'Data gagal dimasukkan\n'
 
-def carimhs(nrpku):
-    URL = "http://www.aditmasih.tk/zaky-api/show.php?nrpku=" + nrpku
+def carimhs(nomer):
+    URL = "http://www.aditmasih.tk/zaky-api/show.php?nomer=" + nomer
     r = requests.get(URL)
     data = r.json()
     err = "data tidak ditemukan"
     
     flag = data['flag']
     if(flag == "1"):
-        nrpku = data['data_mhs'][0]['nrpku']
+        nomer = data['data_mhs'][0]['nomer']
         namaku = data['data_mhs'][0]['namaku']
         daeasal = data['data_mhs'][0]['daeasal']
         jurusanku = data['data_mhs'][0]['jurusanku']
 
         # munculin semua, ga rapi, ada 'u' nya
         # all_data = data['data_angkatan'][0]
-        data= "Nama Mahasiswa : "+namaku+"\nNRP : "+nrpku+"\nDaerah Asal : "+daeasal+"\nJurusan : "+jurusanku
+        data= "Nama Mahasiswa : "+namaku+"\nNo : "+nomer+"\nDaerah Asal : "+daeasal+"\nJurusan : "+jurusanku
         return data
         # return all_data
 
@@ -85,13 +85,13 @@ def allmhs():
     if(flag == "1"):
         hasil = ""
         for i in range(0,len(data['data_mhs'])):
-            id_buku = data['data_mhs'][int(i)][0]
+            nomer = data['data_mhs'][int(i)][0]
             judul_buku = data['data_mhs'][int(i)][2]
             pengarang = data['data_mhs'][int(i)][4]
             tahun = data['data_mhs'][int(i)][6]
             hasil=hasil+str(i+1)
-            hasil=hasil+".\nNRP : "
-            hasil=hasil+nrpku
+            hasil=hasil+".\nNo : "
+            hasil=hasil+nomer
             hasil=hasil+"\nNama Mahasiswa : "
             hasil=hasil+namaku
             hasil=hasil+"\nDaerah Asal : "
@@ -103,32 +103,31 @@ def allmhs():
     elif(flag == "0"):
         return 'Mahasiswa kosong\n'
 
-def hapusmhs(nrpku):
-    r = requests.post("http://www.aditmasih.tk/zaky-api/delete.php", data={'nrpku': nrpku})
+def hapusmhs(nomer):
+    r = requests.post("http://www.aditmasih.tk/zaky-api/delete.php", data={'nomer': nomer})
     data = r.json()
 
     flag = data['flag']
    
     if(flag == "1"):
-        return 'Data '+nrpku+' berhasil dihapus\n'
+        return 'Data '+nomer+' berhasil dihapus\n'
     elif(flag == "0"):
         return 'Data gagal dihapus\n'
 
-def updatemhs(nrpLama,nrpku,namaku,daeasal,jurusanku):
-    URL = "http://www.aditmasih.tk/zaky-api/show.php?nrpku=" + nrpLama
+def updatemhs(nomerLama,nrpku,namaku,daeasal,jurusanku):
+    URL = "http://www.aditmasih.tk/zaky-api/show.php?nomer=" + nomerLama
     r = requests.get(URL)
     data = r.json()
     err = "data tidak ditemukan"
-    nrpLama=nrplama
+    nmr_lama=nomerLama
     flag = data['flag']
     if(flag == "1"):
-        r = requests.post("http://www.aditmasih.tk/zaky-api/update.php", data={'nrplama':nrplama, 'nrpku': nrpku, 'namaku': namaku,
-         'daeasal': daeasal, 'jurusanku': jurusanku})
+        r = requests.post("http://www.aditmasih.tk/zaky-api/update.php", data={'nmr_lama':nmr_lama, 'nomer': nomer, 'namaku': namaku,'daeasal': daeasal, 'jurusanku': jurusanku})
         data = r.json()
         flag = data['flag']
 
         if(flag == "1"):
-            return 'Data '+id_lama+' berhasil diupdate\n'
+            return 'Data '+nmr_lama+' berhasil diupdate\n'
         elif(flag == "0"):
             return 'Data gagal diupdate\n'
 
@@ -168,7 +167,7 @@ def handle_message(event):
     elif(data[0]=='semua'):
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=allmhs()))
     elif(data[0]=='menu'):
-        menu = "1. lihat-[nrpku]\n2. tambah-[nrpku]-[namaku]-[daeasal]-[jurusanku]\n3. hapus-[nrpku]\n4. ganti-[id lama]-[id baru]-[namaku baru]-[daeasal baru]-[jurusanku baru]\n5. semua"
+        menu = "1. lihat-[nomer]\n2. tambah-[nomer]-[namaku]-[daeasal]-[jurusanku]\n3. hapus-[nomer]\n4. ganti-[nmr_lama]-[nomer baru]-[namaku baru]-[daeasal baru]-[jurusanku baru]\n5. semua"
         line_bot_api.reply_message(event.reply_token, TextSendMessage(text=menu))
 
 
