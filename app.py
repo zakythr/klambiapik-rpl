@@ -37,7 +37,7 @@ line_bot_api = LineBotApi('In++hTLWDsGi8712BFxRaC9Qkr/Lbn8fQe6dhkBm+8Fxl6zH19I97
 # Channel Secret
 handler = WebhookHandler('1aa040aad1ecfbcf33d3a5916b4a1439')
 
-#===========[ NOTE SAVER ]=======================
+
 notes = {}
 
 #REQUEST DATA MHS
