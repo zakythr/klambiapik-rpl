@@ -42,7 +42,7 @@ notes = {}
 
 #REQUEST DATA MHS
 def carimhs(nmr):
-    URLmhs = "http://www.aditmasih.tk/api_andhika/show.php?nmr=" + nmr
+    URLmhs = "http://www.aditmasih.tk/zaky_api/show.php?nmr=" + nmr
     r = requests.get(URLmhs)
     data = r.json()
     err = "data tidak ditemukan"
@@ -82,7 +82,7 @@ def cari(jawa):
         return err
 #INPUT DATA MHS
 def inputmhs(nmr, sangar):
-    r = requests.post("http://www.aditmasih.tk/api_andhika/insert.php", data={'nmr': nmr, 'sangar': sangar})
+    r = requests.post("http://www.aditmasih.tk/zaky_api/insert.php", data={'nmr': nmr, 'sangar': sangar})
     data = r.json()
 
     flag = data['flag']
@@ -104,7 +104,7 @@ def inputput(jawa, indo):
         return 'Data gagal dimasukkan\n'
 
 def allmhs():
-    r = requests.post("http://www.aditmasih.tk/api_andhika/all.php")
+    r = requests.post("http://www.aditmasih.tk/zaky_api/all.php")
     data = r.json()
     flag = data['flag']
     if(flag == "1"):

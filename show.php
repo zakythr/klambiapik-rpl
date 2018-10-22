@@ -4,7 +4,7 @@
     if (isset($_GET['nmr'])) {
         $user_id = $_GET['nmr'];
         
-        $result = mysqli_query($conn, "SELECT * FROM `api_andhika` where nmr=".$user_id);
+        $result = mysqli_query($conn, "SELECT * FROM `zaky_api` where nmr=".$user_id);
         // print_r($result);
         $data = array();
         

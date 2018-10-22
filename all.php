@@ -2,7 +2,7 @@
 	include('conn.php');
     //print_r($_GET);
 
-        $result = mysqli_query($conn, "SELECT * FROM `api_andhika`");
+        $result = mysqli_query($conn, "SELECT * FROM `zaky_api`");
         $data = array();
         $i=0;
         while ($row = mysqli_fetch_array($result)) {
