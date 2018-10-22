@@ -1,10 +1,10 @@
 <?php
 	include('conn.php');
     //print_r($_GET);
-    if (isset($_GET['nomer'])) {
-        $nrpku = $_GET['nomer'];
+    if (isset($_GET['nmr'])) {
+        $user_id = $_GET['nmr'];
         
-        $result = mysqli_query($conn, "SELECT * FROM `zaky-api` where nomer=".$nomer);
+        $result = mysqli_query($conn, "SELECT * FROM `api_andhika` where nmr=".$user_id);
         // print_r($result);
         $data = array();
         
@@ -13,9 +13,9 @@
         }
         
         if(mysqli_num_rows ($result) > 0)
-			echo json_encode(array('flag'=>"1",'data_mhs' => $data ), JSON_PRETTY_PRINT);
+			echo json_encode(array('flag'=>"1",'data_angkatan' => $data ), JSON_PRETTY_PRINT);
 		else 
-			echo json_encode(array('flag'=>"0",'data_mhs' => $data ), JSON_PRETTY_PRINT);
+			echo json_encode(array('flag'=>"0",'data_angkatan' => $data ), JSON_PRETTY_PRINT);
         
     }
 

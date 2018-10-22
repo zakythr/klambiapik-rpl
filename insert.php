@@ -1,15 +1,13 @@
 <?php
 	include('conn.php');
 
-	if (!empty($_POST['nomer']) && !empty($_POST['namaku']) && !empty($_POST['daeasal']) && !empty($_POST['jurusanku'])){
+	if (!empty($_POST['nmr']) && !empty($_POST['sangar'])){
 
-		$nomer = $_POST['nomer'];
-		$namaku = $_POST['namaku'];
-		$daeasal = $_POST['daeasal'];
-		$jurusanku = $_POST['jurusanku'];
+		$user_id = $_POST['nmr'];
+		$sangar = $_POST['sangar'];
         
         
-		$queryResult = $conn->query("INSERT INTO `zaky-api` (nomer, namaku, daeasal, jurusanku) VALUES ('$nomer', '$namaku', '$daeasal', '$jurusanku')");
+		$queryResult = $conn->query("INSERT INTO `api_andhika` (nmr, sangar) VALUES ('$user_id', '$sangar')");
 
 		echo json_encode(array( 'flag'=>"1" ), JSON_PRETTY_PRINT);
 	}

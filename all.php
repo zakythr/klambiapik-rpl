@@ -2,7 +2,7 @@
 	include('conn.php');
     //print_r($_GET);
 
-        $result = mysqli_query($conn, "SELECT * FROM `zaky-api`");
+        $result = mysqli_query($conn, "SELECT * FROM `api_andhika`");
         $data = array();
         $i=0;
         while ($row = mysqli_fetch_array($result)) {
@@ -15,9 +15,9 @@
         }
         
         if(mysqli_num_rows ($result) > 0)
-			echo json_encode(array('flag'=>"1",'data_mhs' => $data ), JSON_PRETTY_PRINT);
+			echo json_encode(array('flag'=>"1",'data_angkatan' => $data ), JSON_PRETTY_PRINT);
 		else 
-			echo json_encode(array('flag'=>"0",'data_mhs' => $data ), JSON_PRETTY_PRINT);
+			echo json_encode(array('flag'=>"0",'data_angkatan' => $data ), JSON_PRETTY_PRINT);
         
 
 ?>
